@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        })
+        }, button_screenshot)
     }
 
     fun showError() {
