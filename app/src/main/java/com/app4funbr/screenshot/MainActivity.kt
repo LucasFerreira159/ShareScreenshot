@@ -14,42 +14,34 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var permissions = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        permissions = requestPermissions()
 
         button_screenshot.setOnClickListener {
-            when (permissions) {
+            when (requestPermissions()) {
                 true -> takeAndShareScreenShot()
                 else -> showError()
             }
         }
     }
 
-    fun takeAndShareScreenShot() {
+    private fun takeAndShareScreenShot() {
         Instacapture.capture(this, object : SimpleScreenCapturingListener() {
             override fun onCaptureComplete(bitmap: Bitmap) {
                 val uri = saveImageExternal(bitmap)
                 uri?.let {
                     shareImageURI(uri)
-                } ?: Toast.makeText(
-                    applicationContext,
-                    "Não foi possível compartilhar screenshot",
-                    Toast.LENGTH_SHORT
-                ).show()
+                } ?: showError()
             }
         }, button_screenshot)
     }
 
-    fun showError() {
+    private fun showError() {
         Toast.makeText(
             this,
             "Necessário conceder as permissões",
             Toast.LENGTH_SHORT
         ).show()
-        requestPermissions()
     }
 }

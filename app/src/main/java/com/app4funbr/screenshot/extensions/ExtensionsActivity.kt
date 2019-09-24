@@ -59,7 +59,7 @@ fun Activity.shareImageURI(uri: Uri){
     val shareIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_STREAM, uri)
-        type = "image/jpeg"
+        type = "message/rfc822"
     }
 
     startActivity(Intent.createChooser(shareIntent, "Enviar para"))
